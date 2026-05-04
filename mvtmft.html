@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Allocation Simulator (MFT & MVT)</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #000000;
+      color: #e0e0e0;
+      padding: 20px;
+      transition: background 0.5s ease;
+    }
+
+    h1, h2 {
+      text-align: center;
+      animation: fadeInDown 0.8s ease;
+      color: #2e7d32;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      animation: fadeIn 0.8s ease;
+      margin-bottom: 30px;
+      border-left: 5px solid #2e7d32;
+    }
+
+    .explanation-container {
+      max-width: 900px;
+      margin: auto;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      animation: fadeIn 0.8s ease;
+      margin-bottom: 30px;
+      border-left: 5px solid #2e7d32;
+    }
+
+    .explanation-section {
+      margin-bottom: 20px;
+    }
+
+    .pros-cons {
+      display: flex;
+      gap: 20px;
+      margin-top: 15px;
+    }
+
+    .pros, .cons {
+      flex: 1;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #2a2a2a;
+    }
+
+    .example {
+      background-color: #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .section {
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;        
+      justify-content: center;    
+      text-align: center;
+      transition: all 0.5s ease;  
+    }
+
+    .next {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+    }
+
+    .block {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      transition: all 0.5s ease;
+    }
+
+    label {
+      font-weight: bold;
+      color: #e0e0e0;
+    }
+
+    input[type="number"], select {
+      width: 80px;
+      padding: 5px;
+      margin: 0 5px;
+      border: 1px solid #444;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+      background-color: #2a2a2a;
+      color: #e0e0e0;
+    }
+
+    input[type="number"]:focus, select:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 5px rgba(46, 125, 50, 0.5);
+      transform: scale(1.05);
+    }
+
+    button {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #1b5e20;
+      transform: scale(1.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .reset-btn {
+      background-color: #c62828;
+    }
+
+    .reset-btn:hover {
+      background-color: #b71c1c;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: all 0.5s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      background-color: #2a2a2a;
+    }
+
+    .output.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    th, td {
+      border: 1px solid #444;
+      padding: 8px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    tr:hover td {
+      background-color: #333;
+    }
+
+    th {
+      background-color: #2e7d32;
+      color: white;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      background-color: #333;
+      border: none;
+      border-radius: 5px 5px 0 0;
+      cursor: pointer;
+      margin: 0 5px;
+      transition: all 0.3s ease;
+      color: #e0e0e0;
+    }
+
+    .tab.active {
+      background-color: #2e7d32;
+      color: white;
+    }
+
+    .tab:hover:not(.active) {
+      background-color: #444;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .memory-visualization {
+      height: 40px;
+      border: 1px solid #444;
+      margin: 20px 0;
+      position: relative;
+      background-color: #333;
+    }
+
+    .memory-block {
+      position: absolute;
+      height: 100%;
+      border-right: 1px solid #1a1a1a;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      line-height: 40px;
+      font-size: 12px;
+    }
+
+    .legend {
+      margin: 15px 0;
+      padding: 10px;
+      background-color: #2a2a2a;
+      border-radius: 5px;
+    }
+
+    .legend-item {
+      display: inline-block;
+      margin-right: 20px;
+    }
+
+    .legend-color {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="explanation-container">
+    <h1>Memory Allocation Techniques</h1>
+    
+    <div class="explanation-section">
+      <h2>Multiprogramming with Fixed Tasks (MFT)</h2>
+      <p>MFT divides memory into fixed-size partitions. Each process is allocated to a partition that fits its size. The key characteristic of MFT is that partitions are created at system startup and remain fixed in size and location.</p>
+      
+      <div class="pros-cons">
+        <div class="pros">
+          <h3>Advantages</h3>
+          <ul>
+            <li>Simple to implement</li>
+            <li>Low overhead for memory management</li>
+            <li>Predictable performance</li>
+            <li>No external fragmentation</li>
+          </ul>
+        </div>
+        
+        <div class="cons">
+          <h3>Disadvantages</h3>
+          <ul>
+            <li>Internal fragmentation (unused memory within partitions)</li>
+            <li>Limited flexibility in process sizes</li>
+            <li>Poor memory utilization if process sizes vary greatly</li>
+            <li>Maximum process size limited by largest partition</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="example">
+        <h3>MFT Example</h3>
+        <p>Memory: 1000KB, Partition size: 250KB → 4 partitions</p>
+        <p>Processes:</p>
+        <ul>
+          <li>P1: 200KB → Fits in partition (50KB internal fragmentation)</li>
+          <li>P2: 300KB → Too large, cannot be allocated</li>
+          <li>P3: 100KB → Fits in partition (150KB internal fragmentation)</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="explanation-section">
+      <h2>Multiprogramming with Variable Tasks (MVT)</h2>
+      <p>MVT allocates memory dynamically to processes as needed. Memory is treated as one large pool of free memory, and processes are allocated exactly what they need. The key characteristic of MVT is that memory is allocated and freed as processes start and terminate.</p>
+      
+      <div class="pros-cons">
+        <div class="pros">
+          <h3>Advantages</h3>
+          <ul>
+            <li>No internal fragmentation</li>
+            <li>Better memory utilization</li>
+            <li>Can accommodate processes of any size (up to total memory)</li>
+            <li>More flexible than MFT</li>
+          </ul>
+        </div>
+        
+        <div class="cons">
+          <h3>Disadvantages</h3>
+          <ul>
+            <li>External fragmentation (small unusable blocks of free memory)</li>
+            <li>More complex memory management</li>
+            <li>Requires compaction to reduce fragmentation</li>
+            <li>Performance overhead for allocation/deallocation</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="example">
+        <h3>MVT Example</h3>
+        <p>Memory: 1000KB</p>
+        <p>Processes:</p>
+        <ul>
+          <li>P1: 200KB allocated → 800KB free</li>
+          <li>P2: 300KB allocated → 500KB free</li>
+          <li>P1 terminates → 200KB + 500KB free (non-contiguous)</li>
+          <li>P3: 400KB cannot be allocated (external fragmentation)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <h1>Memory Allocation Simulator</h1>
+    
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('mft')">MFT</button>
+      <button class="tab" onclick="switchTab('mvt')">MVT</button>
+    </div>
+
+    <div id="mft" class="tab-content active">
+      <div class="section">
+        <label>Total Memory (KB):</label>
+        <input type="number" id="mft-total-memory" value="1000" min="100">
+        <label>Partition Size (KB):</label>
+        <input type="number" id="mft-partition-size" value="250" min="50">
+      </div>
+      
+      <div class="section">
+        <label>Number of Processes:</label>
+        <input type="number" id="mft-process-count" value="3" min="1" max="10">
+        <button onclick="generateMFTProcessInputs()">Generate</button>
+      </div>
+      
+      <div id="mft-process-inputs" class="hidden">
+        <div class="legend">
+          <div class="legend-item"><span class="legend-color" style="background-color: #2e7d32;"></span>Allocated Partition</div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #e74c3c;"></span>Process Memory</div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #f1c40f;"></span>Internal Fragmentation</div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #333;"></span>Free Memory</div>
+        </div>
+        
+        <div id="mft-process-size-inputs"></div>
+        <button onclick="runMFTSimulation()">Run MFT Simulation</button>
+      </div>
+      
+      <div class="output" id="mft-output"></div>
+      <div id="mft-results" class="hidden">
+        <div id="mft-memory-visualization" class="memory-visualization"></div>
+        <table id="mft-result-table">
+          <thead>
+            <tr>
+              <th>Process</th>
+              <th>Size (KB)</th>
+              <th>Partition</th>
+              <th>Allocated</th>
+              <th>Internal Fragmentation</th>
+            </tr>
+          </thead>
+          <tbody id="mft-table-body"></tbody>
+        </table>
+        <div id="mft-summary"></div>
+      </div>
+    </div>
+    
+    <div id="mvt" class="tab-content">
+      <div class="section">
+        <label>Total Memory (KB):</label>
+        <input type="number" id="mvt-total-memory" value="1000" min="100">
+      </div>
+      
+      <div class="section">
+        <label>Number of Processes:</label>
+        <input type="number" id="mvt-process-count" value="3" min="1" max="10">
+        <label>Allocation Strategy:</label>
+        <select id="mvt-strategy">
+          <option value="first-fit">First Fit</option>
+          <option value="best-fit">Best Fit</option>
+          <option value="worst-fit">Worst Fit</option>
+        </select>
+        <button onclick="generateMVTProcessInputs()">Generate</button>
+      </div>
+      
+      <div id="mvt-process-inputs" class="hidden">
+        <div class="legend">
+          <div class="legend-item"><span class="legend-color" style="background-color: #2e7d32;"></span>Allocated Memory</div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #e74c3c;"></span>Process Memory</div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #9b59b6;"></span>External Fragmentation</div>
+          <div class="legend-item"><span class="legend-color" style="background-color: #333;"></span>Free Memory</div>
+        </div>
+        
+        <div id="mvt-process-size-inputs"></div>
+        <button onclick="runMVTSimulation()">Run MVT Simulation</button>
+      </div>
+      
+      <div class="output" id="mvt-output"></div>
+      <div id="mvt-results" class="hidden">
+        <div id="mvt-memory-visualization" class="memory-visualization"></div>
+        <table id="mvt-result-table">
+          <thead>
+            <tr>
+              <th>Process</th>
+              <th>Size (KB)</th>
+              <th>Memory Range</th>
+              <th>Allocated</th>
+            </tr>
+          </thead>
+          <tbody id="mvt-table-body"></tbody>
+        </table>
+        <div id="mvt-summary"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tab switching
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      document.getElementById(tabName).classList.add('active');
+      document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
+    }
+
+    // MFT Functions
+    function generateMFTProcessInputs() {
+      const totalMemory = parseInt(document.getElementById('mft-total-memory').value);
+      const partitionSize = parseInt(document.getElementById('mft-partition-size').value);
+      const processCount = parseInt(document.getElementById('mft-process-count').value);
+      
+      if (isNaN(totalMemory) || isNaN(partitionSize) || isNaN(processCount)) {
+        alert("Please enter valid numbers");
+        return;
+      }
+      
+      const partitionCount = Math.floor(totalMemory / partitionSize);
+      const remainingMemory = totalMemory - (partitionCount * partitionSize);
+      
+      const inputsDiv = document.getElementById('mft-process-size-inputs');
+      inputsDiv.innerHTML = '';
+      
+      for (let i = 0; i < processCount; i++) {
+        const div = document.createElement('div');
+        div.className = 'section';
+        div.innerHTML = `
+          <label>Process ${i} Size (KB):</label>
+          <input type="number" id="mft-process-${i}" min="1" value="${i === 0 ? 200 : i === 1 ? 300 : 100}">
+        `;
+        inputsDiv.appendChild(div);
+      }
+      
+      document.getElementById('mft-process-inputs').classList.remove('hidden');
+    }
+
+    function runMFTSimulation() {
+      const totalMemory = parseInt(document.getElementById('mft-total-memory').value);
+      const partitionSize = parseInt(document.getElementById('mft-partition-size').value);
+      const processCount = parseInt(document.getElementById('mft-process-count').value);
+      
+      const partitionCount = Math.floor(totalMemory / partitionSize);
+      const remainingMemory = totalMemory - (partitionCount * partitionSize);
+      
+      // Get process sizes
+      const processes = [];
+      for (let i = 0; i < processCount; i++) {
+        processes.push({
+          id: i,
+          size: parseInt(document.getElementById(`mft-process-${i}`).value)
+        });
+      }
+      
+      // Initialize partitions
+      const partitions = [];
+      for (let i = 0; i < partitionCount; i++) {
+        partitions.push({
+          id: i,
+          size: partitionSize,
+          process: null,
+          free: partitionSize
+        });
+      }
+      
+      // Allocate processes
+      let totalInternalFrag = 0;
+      const results = [];
+      
+      for (const process of processes) {
+        let allocated = false;
+        
+        for (const partition of partitions) {
+          if (partition.process === null && process.size <= partition.size) {
+            partition.process = process.id;
+            partition.free = partition.size - process.size;
+            totalInternalFrag += partition.free;
+            allocated = true;
+            
+            results.push({
+              process: process.id,
+              size: process.size,
+              partition: partition.id,
+              allocated: true,
+              frag: partition.free
+            });
+            break;
+          }
+        }
+        
+        if (!allocated) {
+          results.push({
+            process: process.id,
+            size: process.size,
+            partition: '-',
+            allocated: false,
+            frag: '-'
+          });
+        }
+      }
+      
+      // Display results
+      const outputArea = document.getElementById('mft-output');
+      outputArea.innerHTML = `
+        <h3>MFT Simulation Results</h3>
+        <p>Total Memory: ${totalMemory}KB | Partition Size: ${partitionSize}KB</p>
+        <p>Number of Partitions: ${partitionCount} | Remaining Memory: ${remainingMemory}KB</p>
+      `;
+      outputArea.classList.add('show');
+      
+      // Create memory visualization
+      const memViz = document.getElementById('mft-memory-visualization');
+      memViz.innerHTML = '';
+      
+      partitions.forEach((partition, index) => {
+        const widthPercent = (partition.size / totalMemory) * 100;
+        const leftPercent = (index * partition.size / totalMemory) * 100;
+        
+        const blockDiv = document.createElement('div');
+        blockDiv.className = 'memory-block';
+        blockDiv.style.left = `${leftPercent}%`;
+        blockDiv.style.width = `${widthPercent}%`;
+        
+        if (partition.process !== null) {
+          const processHeight = (partition.size - partition.free) / partition.size * 100;
+          const fragHeight = (partition.free / partition.size) * 100;
+          
+          blockDiv.style.backgroundColor = '#2e7d32';
+          
+          const processDiv = document.createElement('div');
+          processDiv.style.position = 'absolute';
+          processDiv.style.bottom = '0';
+          processDiv.style.width = '100%';
+          processDiv.style.height = `${processHeight}%`;
+          processDiv.style.backgroundColor = '#e74c3c';
+          processDiv.innerHTML = `P${partition.process}`;
+          processDiv.style.lineHeight = `${processHeight}px`;
+          blockDiv.appendChild(processDiv);
+          
+          if (partition.free > 0) {
+            const fragDiv = document.createElement('div');
+            fragDiv.style.position = 'absolute';
+            fragDiv.style.top = '0';
+            fragDiv.style.width = '100%';
+            fragDiv.style.height = `${fragHeight}%`;
+            fragDiv.style.backgroundColor = '#f1c40f';
+            fragDiv.innerHTML = `${partition.free}KB`;
+            fragDiv.style.lineHeight = `${fragHeight}px`;
+            blockDiv.appendChild(fragDiv);
+          }
+        } else {
+          blockDiv.style.backgroundColor = '#333';
+          blockDiv.innerHTML = 'Free';
+        }
+        
+        memViz.appendChild(blockDiv);
+      });
+      
+      // Add remaining memory if any
+      if (remainingMemory > 0) {
+        const widthPercent = (remainingMemory / totalMemory) * 100;
+        const leftPercent = (partitionCount * partition.size / totalMemory) * 100;
+        
+        const blockDiv = document.createElement('div');
+        blockDiv.className = 'memory-block';
+        blockDiv.style.left = `${leftPercent}%`;
+        blockDiv.style.width = `${widthPercent}%`;
+        blockDiv.style.backgroundColor = '#333';
+        blockDiv.innerHTML = 'Free';
+        memViz.appendChild(blockDiv);
+      }
+      
+      // Create process table
+      const tableBody = document.getElementById('mft-table-body');
+      tableBody.innerHTML = '';
+      
+      results.forEach(result => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>P${result.process}</td>
+          <td>${result.size}</td>
+          <td>${result.partition !== '-' ? `Partition ${result.partition}` : '-'}</td>
+          <td>${result.allocated ? 'Yes' : 'No'}</td>
+          <td>${result.frag !== '-' ? `${result.frag}KB` : '-'}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+      
+      // Create summary
+      const summaryDiv = document.getElementById('mft-summary');
+      summaryDiv.innerHTML = `
+        <p><strong>Total Internal Fragmentation:</strong> ${totalInternalFrag}KB</p>
+        <p><strong>Unallocated Processes:</strong> ${results.filter(r => !r.allocated).length}</p>
+        <p><strong>Memory Utilization:</strong> ${Math.round((totalMemory - totalInternalFrag - remainingMemory) / totalMemory * 100)}%</p>
+      `;
+      
+      document.getElementById('mft-results').classList.remove('hidden');
+    }
+
+    // MVT Functions
+    function generateMVTProcessInputs() {
+      const processCount = parseInt(document.getElementById('mvt-process-count').value);
+      
+      if (isNaN(processCount)) {
+        alert("Please enter valid number of processes");
+        return;
+      }
+      
+      const inputsDiv = document.getElementById('mvt-process-size-inputs');
+      inputsDiv.innerHTML = '';
+      
+      for (let i = 0; i < processCount; i++) {
+        const div = document.createElement('div');
+        div.className = 'section';
+        div.innerHTML = `
+          <label>Process ${i} Size (KB):</label>
+          <input type="number" id="mvt-process-${i}" min="1" value="${i === 0 ? 200 : i === 1 ? 300 : 400}">
+        `;
+        inputsDiv.appendChild(div);
+      }
+      
+      document.getElementById('mvt-process-inputs').classList.remove('hidden');
+    }
+
+    function runMVTSimulation() {
+      const totalMemory = parseInt(document.getElementById('mvt-total-memory').value);
+      const processCount = parseInt(document.getElementById('mvt-process-count').value);
+      const strategy = document.getElementById('mvt-strategy').value;
+      
+      // Get process sizes
+      const processes = [];
+      for (let i = 0; i < processCount; i++) {
+        processes.push({
+          id: i,
+          size: parseInt(document.getElementById(`mvt-process-${i}`).value),
+          allocated: false,
+          start: null,
+          end: null
+        });
+      }
+      
+      // Initialize memory as one free block
+      const memoryBlocks = [{
+        start: 0,
+        end: totalMemory - 1,
+        free: true,
+        process: null
+      }];
+      
+      // Allocate processes based on strategy
+      for (const process of processes) {
+        let blockIndex = -1;
+        
+        if (strategy === 'first-fit') {
+          blockIndex = memoryBlocks.findIndex(block => 
+            block.free && (block.end - block.start + 1) >= process.size
+          );
+        } 
+        else if (strategy === 'best-fit') {
+          const suitableBlocks = memoryBlocks
+            .filter(block => block.free && (block.end - block.start + 1) >= process.size)
+            .sort((a, b) => (a.end - a.start) - (b.end - b.start));
+          
+          if (suitableBlocks.length > 0) {
+            blockIndex = memoryBlocks.indexOf(suitableBlocks[0]);
+          }
+        } 
+        else if (strategy === 'worst-fit') {
+          const suitableBlocks = memoryBlocks
+            .filter(block => block.free && (block.end - block.start + 1) >= process.size)
+            .sort((a, b) => (b.end - b.start) - (a.end - a.start));
+          
+          if (suitableBlocks.length > 0) {
+            blockIndex = memoryBlocks.indexOf(suitableBlocks[0]);
+          }
+        }
+        
+        if (blockIndex !== -1) {
+          const block = memoryBlocks[blockIndex];
+          const blockSize = block.end - block.start + 1;
+          
+          // Split the block
+          memoryBlocks.splice(blockIndex, 1);
+          
+          // Allocated part
+          memoryBlocks.splice(blockIndex, 0, {
+            start: block.start,
+            end: block.start + process.size - 1,
+            free: false,
+            process: process.id
+          });
+          
+          process.allocated = true;
+          process.start = block.start;
+          process.end = block.start + process.size - 1;
+          
+          // Remaining free part (if any)
+          if (blockSize > process.size) {
+            memoryBlocks.splice(blockIndex + 1, 0, {
+              start: block.start + process.size,
+              end: block.end,
+              free: true,
+              process: null
+            });
+          }
+        }
+      }
+      
+      // Calculate external fragmentation
+      const freeBlocks = memoryBlocks.filter(block => block.free);
+      let totalExternalFrag = 0;
+      let largestFreeBlock = 0;
+      
+      freeBlocks.forEach(block => {
+        const size = block.end - block.start + 1;
+        totalExternalFrag += size;
+        if (size > largestFreeBlock) {
+          largestFreeBlock = size;
+        }
+      });
+      
+      // Display results
+      const outputArea = document.getElementById('mvt-output');
+      outputArea.innerHTML = `
+        <h3>MVT Simulation Results (${strategy.replace('-', ' ').toUpperCase()})</h3>
+        <p>Total Memory: ${totalMemory}KB</p>
+        <p>Total External Fragmentation: ${totalExternalFrag}KB</p>
+        <p>Largest Free Block: ${largestFreeBlock}KB</p>
+      `;
+      outputArea.classList.add('show');
+      
+      // Create memory visualization
+      const memViz = document.getElementById('mvt-memory-visualization');
+      memViz.innerHTML = '';
+      
+      memoryBlocks.forEach(block => {
+        const blockSize = block.end - block.start + 1;
+        const widthPercent = (blockSize / totalMemory) * 100;
+        const leftPercent = (block.start / totalMemory) * 100;
+        
+        const blockDiv = document.createElement('div');
+        blockDiv.className = 'memory-block';
+        blockDiv.style.left = `${leftPercent}%`;
+        blockDiv.style.width = `${widthPercent}%`;
+        
+        if (!block.free) {
+          blockDiv.style.backgroundColor = '#2e7d32';
+          
+          const processDiv = document.createElement('div');
+          processDiv.style.backgroundColor = '#e74c3c';
+          processDiv.style.height = '70%';
+          processDiv.style.marginTop = '6%';
+          processDiv.innerHTML = `P${block.process}`;
+          processDiv.style.lineHeight = '28px';
+          blockDiv.appendChild(processDiv);
+        } else {
+          blockDiv.style.backgroundColor = blockSize === largestFreeBlock && blockSize < totalMemory * 0.2 ? '#9b59b6' : '#333';
+          blockDiv.innerHTML = `${blockSize}KB`;
+        }
+        
+        memViz.appendChild(blockDiv);
+      });
+      
+      // Create process table
+      const tableBody = document.getElementById('mvt-table-body');
+      tableBody.innerHTML = '';
+      
+      processes.forEach(process => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>P${process.id}</td>
+          <td>${process.size}</td>
+          <td>${process.allocated ? `${process.start}-${process.end}` : '-'}</td>
+          <td>${process.allocated ? 'Yes' : 'No'}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+      
+      // Create summary
+      const summaryDiv = document.getElementById('mvt-summary');
+      summaryDiv.innerHTML = `
+        <p><strong>Allocated Processes:</strong> ${processes.filter(p => p.allocated).length}</p>
+        <p><strong>Unallocated Processes:</strong> ${processes.filter(p => !p.allocated).length}</p>
+        <p><strong>Memory Utilization:</strong> ${Math.round((totalMemory - totalExternalFrag) / totalMemory * 100)}%</p>
+      `;
+      
+      document.getElementById('mvt-results').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
