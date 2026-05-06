@@ -467,7 +467,7 @@ const NewHome = () => {
 							<h4 className="font-semibold mb-2">Repository</h4>
 							<div className="flex items-center space-x-2">
 								<Code className="w-4 h-4" />
-								<span>https://github.com/sahil-mengji/os-project-51-60</span>
+								<span>https://github.com/abinaya-1106/OS_Project</span>
 							</div>
 						</div>
 
@@ -493,7 +493,7 @@ const NewHome = () => {
 					<div className="bg-gray-800 p-4 rounded-lg">
 						<h4 className="font-semibold mb-2">Clone Repository</h4>
 						<div className="bg-gray-900 p-3 rounded font-mono text-sm">
-							git clone https://github.com/sahil-mengji/os-project-51-60
+							git clone https://github.com/abinaya-1106/OS_Project
 						</div>
 					</div>
 				</div>
