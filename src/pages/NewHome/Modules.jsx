@@ -41,7 +41,7 @@ const projects = [
 	{
 		name: "Banker's Algorithm",
 		component: BankersAlgorithm,
-		builtBy: ["Sai Samanyu"],
+		builtBy: ["Raju Kumar"],
 		icon: <Lock className="w-10 h-10" />,
 		path: "/bankers-algorithm",
 		description:

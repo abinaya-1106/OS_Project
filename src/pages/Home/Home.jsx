@@ -35,7 +35,7 @@ const projects = [
 	{
 		name: "Banker's Algorithm",
 
-		builtBy: ["Sai Samanyu"],
+		builtBy: ["Raju Kumar"],
 		icon: <Lock className="w-6 h-6" />,
 		path: "/bankers-algorithm",
 		description:
@@ -149,11 +149,11 @@ const teamMembers = [
 		github: "https://github.com/Shiv9936A",
 	},
 	{
-		name: "Sai Samanyu",
+		name: "Raju Kumar",
 		role: "Security Algorithms Specialist",
 		contributions: "Banker's algorithm implementation and deadlock avoidance",
 		image: "/api/placeholder/120/120",
-		github: "https://github.com/saisamanyu",
+		github: "https://github.com/Raju-Kumar-9",
 	},
 	{
 		name: "Shreyas Lal",

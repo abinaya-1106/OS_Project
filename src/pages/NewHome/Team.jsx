@@ -24,7 +24,7 @@ const teamMembers = [
 			"Linux Root File System",
 		],
 	},
-	{ name: "Sai Samanyu", role: "Developer", modules: ["Banker's Algorithm"] },
+	{ name: "Raju Kumar", role: "Developer", modules: ["Banker's Algorithm"] },
 	{ name: "Shreyas Lal", role: "Developer", modules: ["CPU Scheduling"] },
 	{ name: "Sanjay S Bhat", role: "Developer", modules: ["Disk Scheduling"] },
 	{
