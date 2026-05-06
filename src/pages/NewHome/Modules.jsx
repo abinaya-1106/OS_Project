@@ -50,7 +50,7 @@ const projects = [
 	{
 		name: "Boot Sequence Visualization",
 		component: BootSequenceVisualization,
-		builtBy: ["Shanjiv A"],
+		builtBy: ["R Shiva Kumar"],
 		icon: <Power className="w-10 h-10" />,
 		path: "/boot-sequence",
 		description: "Visualize the OS boot sequence from BIOS to kernel loading",
@@ -58,7 +58,7 @@ const projects = [
 	{
 		name: "Contiguous Memory Allocation",
 		component: ContiguousMemoryAllocation,
-		builtBy: ["Shanjiv A"],
+		builtBy: ["R Shiva KUmar"],
 		icon: <Layers className="w-10 h-10" />,
 		path: "/contiguous-memory-allocation",
 		description:

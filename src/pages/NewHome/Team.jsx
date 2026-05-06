@@ -16,7 +16,7 @@ const teamMembers = [
 			],
 	},
 	{
-		name: "Shanjiv A",
+		name: "R Shiva Kumar",
 		role: "Developer",
 		modules: [
 			"Boot Sequence Visualization",

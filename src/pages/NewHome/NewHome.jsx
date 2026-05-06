@@ -49,12 +49,12 @@ const teamMembers = [
 		],
 	},
 	{
-		name: "Shanjiv A",
+		name: "R Shiva Kumar",
 		role: "Developer",
 		modules: [
 			"Boot Sequence Visualization",
 			"Contiguous Memory Allocation",
-			"Linux Root File System",
+			// "Linux Root File System",
 		],
 	},
 	{ name: "Sai Samanyu", role: "Developer", modules: ["Banker's Algorithm"] },
@@ -93,7 +93,7 @@ const projects = [
 	{
 		name: "Contiguous Memory Allocation",
 		component: ContiguousMemoryAllocation,
-		builtBy: ["Shanjiv A"],
+		builtBy: ["R Shiva Kumar"],
 		icon: <Layers className="w-10 h-10" />,
 		description:
 			"Simulate first-fit, best-fit, and worst-fit memory allocation strategies",

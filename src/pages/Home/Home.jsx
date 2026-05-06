@@ -46,7 +46,7 @@ const projects = [
 	{
 		name: "Contiguous Memory Allocation",
 
-		builtBy: ["Shanjiv A"],
+		builtBy: ["R Shiva Kumar"],
 		icon: <Layers className="w-6 h-6" />,
 		path: "/contiguous-memory-allocation",
 		description:
@@ -141,12 +141,12 @@ const projects = [
 // Team members data based on the initial project creators
 const teamMembers = [
 	{
-		name: "Shanjiv A",
+		name: "R Shiva Kumar",
 		role: "Core Systems Developer",
 		contributions:
 			"Boot sequence visualization, contiguous memory allocation, Linux root file system",
 		image: "/api/placeholder/120/120",
-		github: "https://github.com/shanjiv",
+		github: "https://github.com/Shiv9936A",
 	},
 	{
 		name: "Sai Samanyu",
