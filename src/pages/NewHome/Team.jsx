@@ -8,14 +8,12 @@ import { ArrowLeft, Users } from "lucide-react";
 // Same projects array from NewHome
 const teamMembers = [
 	{
-		name: "Sahil Mengji",
+		name: "S Ashwin",
 		role: "Developer",
 		modules: [
-			"Project Setup",
 			"System Calls",
 			"Network Calls",
-			"Home Page & Navigation",
-		],
+			],
 	},
 	{
 		name: "Shanjiv A",

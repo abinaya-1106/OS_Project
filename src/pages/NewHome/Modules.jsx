@@ -33,7 +33,7 @@ const projects = [
 	{
 		name: "System Calls",
 		component: SystemCalls,
-		builtBy: ["Sahil Mengji"],
+		builtBy: ["S Ashwin"],
 		icon: <Terminal className="w-10 h-10" />,
 		path: "/system-calls",
 		description: "Interactive demonstration of common system calls",
