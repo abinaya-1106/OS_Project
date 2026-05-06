@@ -103,10 +103,10 @@ const projects = [
 	{
 		name: "Page Replacement",
 		component: PageReplacement,
-		builtBy: ["Sarth Santosh Shah"],
+		builtBy: ["S A Abinaya"],
 		icon: <Activity className="w-10 h-10" />,
 		path: "/page-replacement",
-		description: "Compare FIFO, LRU, and Optimal page replacement algorithms",
+		description: "Compare FIFO, LRU, MRU, LFU and Optimal page replacement algorithms",
 	},
 
 	{

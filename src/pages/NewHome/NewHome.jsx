@@ -68,7 +68,7 @@ const teamMembers = [
 		modules: ["Memory Management"],
 	},
 	{
-		name: "Sarth Santosh Shah",
+		name: "S A Abinaya",
 		role: "Developer",
 		modules: ["Page Replacement"],
 	},
@@ -134,9 +134,9 @@ const projects = [
 	{
 		name: "Page Replacement",
 		component: PageReplacement,
-		builtBy: ["Sarth Santosh Shah"],
+		builtBy: ["S A Abinaya"],
 		icon: <Cpu className="w-10 h-10" />,
-		description: "Compare FIFO, LRU, and Optimal page replacement algorithms",
+		description: "Compare FIFO, LRU, MRU, LFU and Optimal page replacement algorithms",
 	},
 	{
 		name: "System Calls",

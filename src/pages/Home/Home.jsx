@@ -97,12 +97,12 @@ const projects = [
 	{
 		name: "Page Replacement",
 
-		builtBy: ["Sarth Santosh Shah"],
+		builtBy: ["S A Abinaya"],
 		icon: <Activity className="w-6 h-6" />,
 		path: "/page-replacement",
 		description:
 			"Compare page replacement algorithms with customizable page reference strings",
-		algorithms: "FIFO, LRU, Optimal, Clock, NRU, Second-Chance algorithms",
+		algorithms: "FIFO, LRU, Optimal, MRU, LFU",
 	},
 	{
 		name: "System Calls",
@@ -177,11 +177,11 @@ const teamMembers = [
 		github: "https://github.com/sugavasil",
 	},
 	{
-		name: "Sarth Santosh Shah",
+		name: "S A Abinaya",
 		role: "Cache Algorithm Developer",
 		contributions: "Page replacement algorithms and simulation frameworks",
 		image: "/api/placeholder/120/120",
-		github: "https://github.com/sarthshah",
+		github: "https://github.com/abinaya-1106",
 	},
 	{
 		name: "Sahil Mengji",

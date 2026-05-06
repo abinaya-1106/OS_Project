@@ -35,7 +35,7 @@ const teamMembers = [
 		modules: ["Memory Management"],
 	},
 	{
-		name: "Sarth Santosh Shah",
+		name: "S A Abinaya",
 		role: "Developer",
 		modules: ["Page Replacement"],
 	},
