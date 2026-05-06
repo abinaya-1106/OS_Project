@@ -107,7 +107,7 @@ const projects = [
 	{
 		name: "System Calls",
 
-		builtBy: ["Sahil Mengji"],
+		builtBy: ["S Ashwin"],
 		icon: <Terminal className="w-6 h-6" />,
 		path: "/system-calls",
 		description:
@@ -184,7 +184,7 @@ const teamMembers = [
 		github: "https://github.com/abinaya-1106",
 	},
 	{
-		name: "Sahil Mengji",
+		name: "S Ashwin",
 		role: "Kernel Interface Developer",
 		contributions:
 			"System calls implementation and user-kernel mode transitions",

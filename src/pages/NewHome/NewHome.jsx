@@ -41,13 +41,11 @@ import SyncHome from "../Synchronization/Home";
 // Team Members Data
 const teamMembers = [
 	{
-		name: "Sahil Mengji",
+		name: "S Ashwin",
 		role: "Developer",
 		modules: [
-			"Project Setup",
 			"System Calls",
 			"Network Calls",
-			"Home Page & Navigation",
 		],
 	},
 	{
